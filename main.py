@@ -144,6 +144,7 @@ def print_menu():
 
 def main():
     all_function_test()
+    l =[]
     while True:
         print_menu()
         optiune = input("Alegeti optiunea dorita: ")
