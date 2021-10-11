@@ -117,6 +117,69 @@ def test_get_longest_same_div_count():
     assert get_longest_same_div_count([4,4,9,5,7,2]) == [4,4,9]
     assert get_longest_same_div_count([1,2,3,4]) == [2,3]
 
+############  problema 3  ######################
+
+def is_palindrome(x):
+    '''
+    Functie care determina daca un numar este palindrom
+    :param x:
+    :return: True daca numarul este palindrom, False in caz contrar
+    '''
+    invers = 0
+    copie_x = x
+    while copie_x != 0:
+        ultima_cifra = copie_x % 10
+        invers = invers * 10 + ultima_cifra
+        copie_x = copie_x // 10
+
+    if invers == x:
+        return True
+    else:
+        return False
+
+def test_is_palindrome():
+    assert is_palindrome(123) == False
+    assert is_palindrome(111) == True
+    assert is_palindrome(12521) == True
+    assert is_palindrome(12551) == False
+
+def all_are_palindromes(l):
+    '''
+    Functie care determina daca toate numerele din lista sunt palindroame
+    :param l: lista
+    :return: True daca toate numerele sunt palindroame, False in caz contrar
+    '''
+    for x in l:
+        if is_palindrome(x) is False:
+            return False
+    return True
+
+def test_all_are_palindromes():
+    assert all_are_palindromes([121,343,99]) == True
+    assert all_are_palindromes([121,343,98]) == False
+    assert all_are_palindromes([11,22,33]) == True
+    assert all_are_palindromes([121, 990, 878, 929]) == False
+
+def get_longest_all_palindromes(l):
+    '''
+    Functie care determina subsirul de lungime maxima cu proprietatea ca toate nr sunt palindroame
+    :param l: lista
+    :return: o lista ce contine sirul cu proprietatea dorita
+    '''
+    subsecventa_maxima = []
+    for i in range(len(l)):
+        for j in range(i, len(l)):
+            if all_are_palindromes(l[i:j+1]) and len(l[i:j+1]) > len(subsecventa_maxima):
+                subsecventa_maxima = l[i:j+1]
+    return subsecventa_maxima
+
+def test_get_longest_all_palindromes():
+    assert get_longest_all_palindromes([12,33,232,434,10,19]) == [33,232,434]
+    assert get_longest_all_palindromes([]) == []
+    assert get_longest_all_palindromes([10,11]) == [11]
+    assert get_longest_all_palindromes([12,343,1001,909, 56, 88, 99]) == [343,1001,909]
+
+
 ############ pentru meniu ##############
 
 def all_function_test():
@@ -126,6 +189,9 @@ def all_function_test():
     test_get_longest_same_div_count()
     test_all_elements_are_prime()
     test_acelasi_numar_divizori()
+    test_is_palindrome()
+    test_all_are_palindromes()
+    test_get_longest_all_palindromes()
 
 def citire_lista():
     l = []
@@ -139,6 +205,7 @@ def print_menu():
     print("1. Citire date")
     print("2. Cea mai lunga secventa de numere prime")
     print("3. Cea mai lunga secventa de numere care au acelasi numar de divizori")
+    print("4. Cea mai lunga secventa de numere care sunt palindroame")
     print("x. Iesire")
 
 
@@ -154,6 +221,8 @@ def main():
             print(get_longest_all_primes(l))
         elif optiune == "3":
             print(get_longest_same_div_count(l))
+        elif optiune == "4":
+            print(get_longest_all_palindromes(l))
         elif optiune == "x":
             break
         else:
